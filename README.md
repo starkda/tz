@@ -24,7 +24,7 @@ api. Я это реализовал след. образом:
 
 mvn clean package
 
-docker-compose down && docker-compose build --no-cache && docker-compose up -d && docker attach tz_app_1
+docker-compose down && docker-compose build --no-cache && docker-compose up -d && docker attach currency
 
 Для тестов достаточно:
 mvn test.
