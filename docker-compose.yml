@@ -1,0 +1,26 @@
+version: '3'
+services:
+  Elasticsearch:
+    image: elasticsearch:7.16.2
+    container_name: elasticsearch
+    restart: always
+    environment:
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      discovery.type: single-node
+      cluster.routing.allocation.disk.watermark.flood_stage: 200mb
+      cluster.routing.allocation.disk.watermark.low: 500mb
+      cluster.routing.allocation.disk.watermark.high: 300mb
+
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+  app:
+    depends_on:
+    -  Elasticsearch
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    command: [ "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest", "3c63d645-510c-4bb4-820e-43bdc8380715", "6f9186fb-30fe-4c83-8560-d861c689e242", "elasticsearch:9200" ]
